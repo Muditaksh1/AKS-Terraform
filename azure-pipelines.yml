@@ -30,6 +30,7 @@ steps:
     # Service connection (MANDATORY)
     backendServiceArm: 'aksdemo-serviceconnection'
     environmentServiceNameAzureRM: 'aksdemo-serviceconnection'
+    useAzureRmAuthentication: true
 
     # Backend details (ALL mandatory)
     backendAzureRmResourceGroupName: 'tfstate-rg'
