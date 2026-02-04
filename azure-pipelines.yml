@@ -33,6 +33,7 @@ steps:
     backendAzureRmStorageAccountName: tfstateaksdemo
     backendAzureRmContainerName: tfstate
     backendAzureRmKey: aks/dev/terraform.tfstate
+    useAzureRmAuthentication: true
 
 # ---------------------------
 # Terraform PLAN
@@ -43,6 +44,7 @@ steps:
     provider: azurerm
     command: plan
     environmentServiceNameAzureRM: aksdemo-serviceconnection
+    useAzureRmAuthentication: true
 
 
 
