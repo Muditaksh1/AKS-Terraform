@@ -10,11 +10,6 @@ pool:
 
 steps:
 
-- script: |
-    sudo apt update
-    sudo apt install -y unzip
-  displayName: Install unzip
-
 - task: TerraformInstaller@1
   displayName: Install Terraform
   inputs:
@@ -31,6 +26,7 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'init'
+    environmentServiceNameAzureRM: 'aksdemo-serviceconnection'
 
 - task: TerraformTask@5
   displayName: Terraform Plan
@@ -38,5 +34,3 @@ steps:
     provider: 'azurerm'
     command: 'plan'
     environmentServiceNameAzureRM: 'aksdemo-serviceconnection'
-
-
