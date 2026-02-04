@@ -38,10 +38,23 @@ steps:
     backendAzureRmContainerName: 'tfstate'
     backendAzureRmKey: 'aks/dev/terraform.tfstate'
 
-
-- task: TerraformTask@5
+- task: AzureCLI@2
   displayName: Terraform Plan
   inputs:
-    provider: 'azurerm'
-    command: 'plan'
-    environmentServiceNameAzureRM: 'aksdemo-serviceconnection'
+    azureSubscription: 'aksdemo-serviceconnection'   # your service connection
+    scriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      echo "Checking ARM env vars"
+      env | grep ARM_
+
+      terraform version
+      terraform init
+      terraform plan
+
+#- task: TerraformTask@5
+#  displayName: Terraform Plan
+#  inputs:
+#    provider: 'azurerm'
+#    command: 'plan'
+#    environmentServiceNameAzureRM: 'aksdemo-serviceconnection'
