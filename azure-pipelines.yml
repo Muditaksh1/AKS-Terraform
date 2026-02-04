@@ -2,47 +2,34 @@
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
-
 trigger: none
 
 pool:
   name: MyAgentPool
 
 steps:
-
 - task: TerraformInstaller@1
   displayName: Install Terraform
   inputs:
     terraformVersion: '1.14.4'
 
-- script: |
-    terraform -version
-  displayName: Verify Terraform
-
-- task: AzureCLI@2
-  displayName: Terraform Init & Plan (SP Auth)
+- task: TerraformTask@5
+  displayName: Terraform Init
   inputs:
-    azureSubscription: aksdemo-serviceconnection
-    scriptType: bash
-    scriptLocation: inlineScript
-    addSpnToEnvironment: true  
-          
-    inlineScript: |
-      echo "=== ARM ENV VARS ==="
-      env | grep ARM_
+    provider: azurerm
+    command: init
+    backendServiceArm: aksdemo-serviceconnection
+    backendAzureRmResourceGroupName: tfstate-rg
+    backendAzureRmStorageAccountName: tfstateaksdemo
+    backendAzureRmContainerName: tfstate
+    backendAzureRmKey: aks/dev/terraform.tfstate
 
-      terraform version
-
-      terraform init \
-        -backend-config="resource_group_name=tfstate-rg" \
-        -backend-config="storage_account_name=tfstateaksdemo" \
-        -backend-config="container_name=tfstate" \
-        -backend-config="key=aks/dev/terraform.tfstate"
-
-      terraform plan
-
-  env:
-    ARM_USE_CLI: "false"      
+- task: TerraformTask@5
+  displayName: Terraform Plan
+  inputs:
+    provider: azurerm
+    command: plan
+    environmentServiceNameAzureRM: aksdemo-serviceconnection
 
 
 #- task: TerraformTask@5
