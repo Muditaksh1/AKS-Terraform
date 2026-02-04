@@ -25,9 +25,7 @@ steps:
     azureSubscription: aksdemo-serviceconnection
     scriptType: bash
     scriptLocation: inlineScript
-    addSpnToEnvironment: true 
-  env:
-    ARM_USE_CLI: "false" 
+    addSpnToEnvironment: true  
           
     inlineScript: |
       echo "=== ARM ENV VARS ==="
@@ -42,6 +40,9 @@ steps:
         -backend-config="key=aks/dev/terraform.tfstate"
 
       terraform plan
+
+  env:
+    ARM_USE_CLI: "false"      
 
 
 #- task: TerraformTask@5
