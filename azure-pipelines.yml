@@ -25,7 +25,10 @@ steps:
     azureSubscription: aksdemo-serviceconnection
     scriptType: bash
     scriptLocation: inlineScript
-    addSpnToEnvironment: true   
+    addSpnToEnvironment: true 
+  env:
+    ARM_USE_CLI: "false" 
+          
     inlineScript: |
       echo "=== ARM ENV VARS ==="
       env | grep ARM_
