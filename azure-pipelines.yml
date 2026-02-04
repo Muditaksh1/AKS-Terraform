@@ -19,33 +19,26 @@ steps:
     terraform -version
   displayName: Verify Terraform
 
-# ---------------------------
-# Terraform INIT
-# ---------------------------
-- task: TerraformTask@5
-  displayName: Terraform Init
+- task: AzureCLI@2
+  displayName: Terraform Init & Plan (SP Auth)
   inputs:
-    provider: azurerm
-    command: init
+    azureSubscription: aksdemo-serviceconnection
+    scriptType: bash
+    scriptLocation: inlineScript
+    addSpnToEnvironment: true   # 🔑 CRITICAL
+    inlineScript: |
+      echo "=== ARM ENV VARS ==="
+      env | grep ARM_
 
-    backendServiceArm: aksdemo-serviceconnection
-    backendAzureRmResourceGroupName: tfstate-rg
-    backendAzureRmStorageAccountName: tfstateaksdemo
-    backendAzureRmContainerName: tfstate
-    backendAzureRmKey: aks/dev/terraform.tfstate
-    useAzureRmAuthentication: true
+      terraform version
 
-# ---------------------------
-# Terraform PLAN
-# ---------------------------
-- task: TerraformTask@5
-  displayName: Terraform Plan
-  inputs:
-    provider: azurerm
-    command: plan
-    environmentServiceNameAzureRM: aksdemo-serviceconnection
-    useAzureRmAuthentication: true
+      terraform init \
+        -backend-config="resource_group_name=tfstate-rg" \
+        -backend-config="storage_account_name=tfstateaksdemo" \
+        -backend-config="container_name=tfstate" \
+        -backend-config="key=aks/dev/terraform.tfstate"
 
+      terraform plan
 
 
 #- task: TerraformTask@5
