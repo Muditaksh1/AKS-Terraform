@@ -22,12 +22,21 @@ steps:
   displayName: Debug Terraform
 
 - task: TerraformTask@5
-  displayName: Terraform Init
+  displayName: Terraform Init (AzureRM Backend)
   inputs:
     provider: 'azurerm'
     command: 'init'
+
+    # Service connection (MANDATORY)
     backendServiceArm: 'aksdemo-serviceconnection'
     environmentServiceNameAzureRM: 'aksdemo-serviceconnection'
+
+    # Backend details (ALL mandatory)
+    backendAzureRmResourceGroupName: 'tfstate-rg'
+    backendAzureRmStorageAccountName: 'tfstateaksdemo'
+    backendAzureRmContainerName: 'tfstate'
+    backendAzureRmKey: 'aks/dev/terraform.tfstate'
+
 
 - task: TerraformTask@5
   displayName: Terraform Plan
