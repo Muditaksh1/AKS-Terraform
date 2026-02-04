@@ -9,6 +9,12 @@ pool:
   name: MyAgentPool
 
 steps:
+
+- script: |
+    sudo apt update
+    sudo apt install -y unzip
+  displayName: Install unzip
+
 - task: TerraformInstaller@1
   displayName: Install Terraform
   inputs:
