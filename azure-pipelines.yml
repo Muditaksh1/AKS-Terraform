@@ -14,6 +14,12 @@ steps:
   inputs:
     terraformVersion: '1.6.6'
 
+- script: |
+    echo "PATH=$PATH"
+    which terraform
+    terraform -v
+  displayName: Debug Terraform
+
 - task: TerraformTask@5
   displayName: Terraform Init
   inputs:
@@ -26,3 +32,5 @@ steps:
     provider: 'azurerm'
     command: 'plan'
     environmentServiceNameAzureRM: 'aksdemo-serviceconnection'
+
+
