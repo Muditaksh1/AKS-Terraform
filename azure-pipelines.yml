@@ -27,22 +27,12 @@ steps:
     backendAzureRmContainerName: tfstate
     backendAzureRmKey: aks/dev/terraform.tfstate
 
-- task: TerraformTask@5
-  displayName: Terraform Plan
-  env:
-    ARM_CLIENT_ID: $(AZURE_CLIENT_ID)
-    ARM_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
-    ARM_TENANT_ID: $(AZURE_TENANT_ID)
-    ARM_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)  
-  inputs:
-    provider: azurerm
-    command: plan
-   # environmentServiceNameAzureRM: aksdemo-serviceconnection
-
-
-#- task: TerraformTask@5
-#  displayName: Terraform Plan
-#  inputs:
-#    provider: 'azurerm'
-#    command: 'plan'
-#    environmentServiceNameAzureRM: 'aksdemo-serviceconnection'
+- script: |
+    export ARM_CLIENT_ID=$(AZURE_CLIENT_ID)
+    export ARM_CLIENT_SECRET=$(AZURE_CLIENT_SECRET)
+    export ARM_TENANT_ID=$(AZURE_TENANT_ID)
+    export ARM_SUBSCRIPTION_ID=$(AZURE_SUBSCRIPTION_ID)
+    
+    terraform plan
+  displayName: 'Terraform Plan (Manual Script)'
+  workingDirectory: $(System.DefaultWorkingDirectory)
