@@ -37,7 +37,7 @@ steps:
   inputs:
     provider: azurerm
     command: plan
-    environmentServiceNameAzureRM: aksdemo-serviceconnection
+   # environmentServiceNameAzureRM: aksdemo-serviceconnection
 
 
 #- task: TerraformTask@5
