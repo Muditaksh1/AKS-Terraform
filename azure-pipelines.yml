@@ -7,6 +7,9 @@ trigger: none
 pool:
   name: MyAgentPool
 
+variables:
+- group: terraform-secrets  
+
 steps:
 - task: TerraformInstaller@1
   displayName: Install Terraform
@@ -26,6 +29,11 @@ steps:
 
 - task: TerraformTask@5
   displayName: Terraform Plan
+  env:
+    ARM_CLIENT_ID: $(AZURE_CLIENT_ID)
+    ARM_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+    ARM_TENANT_ID: $(AZURE_TENANT_ID)
+    ARM_SUBSCRIPTION_ID: $(AZURE_SUBSCRIPTION_ID)  
   inputs:
     provider: azurerm
     command: plan
