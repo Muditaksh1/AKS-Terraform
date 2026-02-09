@@ -36,3 +36,14 @@ steps:
     terraform plan -var-file="input.auto.tfvars"
   displayName: 'Terraform Plan (Manual Script)'
   workingDirectory: $(System.DefaultWorkingDirectory)
+
+- script: |
+    export ARM_CLIENT_ID=$(AZURE_CLIENT_ID)
+    export ARM_CLIENT_SECRET=$(AZURE_CLIENT_SECRET)
+    export ARM_TENANT_ID=$(AZURE_TENANT_ID)
+    export ARM_SUBSCRIPTION_ID=$(AZURE_SUBSCRIPTION_ID)
+    
+    # -auto-approve is REQUIRED for automation, otherwise the pipeline hangs forever
+    terraform apply -var-file="input.auto.tfvars" -auto-approve
+  displayName: 'Terraform Apply'
+  workingDirectory: $(System.DefaultWorkingDirectory)  
