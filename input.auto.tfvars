@@ -29,6 +29,6 @@ kubernetes_version = "1.21.7"
 agent_pools = {
       name            = "pool1"
       count           = 1
-      vm_size         = "Standard_B2s"
+      vm_size         = "Standard_B2s_v2"
       os_disk_size_gb = "30"
     }
