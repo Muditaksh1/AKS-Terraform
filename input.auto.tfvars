@@ -16,7 +16,7 @@ keyvault_name = "aksdemokv01"
 
 azure_region = "australiaeast"
 
-resource_group = "aksdemocluster-rg"
+resource_group = "aksdemocluster-rg-v2"
 
 cluster_name = "aksdemocluster"
 
